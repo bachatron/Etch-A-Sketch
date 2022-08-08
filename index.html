@@ -8,6 +8,15 @@
     <body>
         <h1>Etch A Sketch</h1>
         <h3>Hover a block to paint</h3>
+        <div>
+            <button id="newGrid">Change grid size</button>
+            <button id="eraser">Eraser</button>
+            <button id="rgbMode">RGB mode</button>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="5" value="1" class="slider" id="gridSize">
+                <p>Grid size: <span id="size"></span></p>
+            </div>
+        </div>
         <div id="container">
         </div>
         <script src="./script.js"></script>
