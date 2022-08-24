@@ -4,48 +4,48 @@ const slider = document.getElementById("gridSize");
 const output = document.getElementById("size");
 const rgbButton = document.getElementById("rgbMode");
 const eraserButton = document.getElementById("eraser");
-const colorButton = document.getElementById("colorButton");
+const brushButton = document.getElementById("brush");
 const colorInput = document.getElementById("color");
 
 color = "#000000"
 
 colorInput.addEventListener('input', ()=>{
     color = colorInput.value
-    console.log(color);
 })
 
 let paint = false;
 let erase = false;
-let eraseTrigger = false;
+let rgb = false;
 
-window.addEventListener('mousedown', function(){
-    if (eraseTrigger){erase=true}
-    else paint = true});
-window.addEventListener('mouseup', function(){
-    if (eraseTrigger){erase=false}
-    else paint = false});
+window.addEventListener('mousedown', () => {paint = true});
+window.addEventListener('mouseup', () => {paint = false});
 
-eraserButton.addEventListener('click', function(){
-    paint = false;
-    eraseTrigger = true;
-})
-
-colorButton.addEventListener('click', (event)=>{eraseTrigger = false})
-
-restartButton.addEventListener('click', restartGrid)
+eraserButton.addEventListener('click', () => {erase = true});
+brushButton.addEventListener('click', (event)=>{
+    erase = false
+    rgb = false
+});
+rgbButton.addEventListener('click', () => {rgb = true});
+restartButton.addEventListener('click', restartGrid);
 
 function addManyDivs (elementTarget, numberOfDivs) {
-    //This function creates a new grid of the desire size
+    //This function creates a new grid of the desire size and add some event listener.
     for (let i = 0; i < numberOfDivs*numberOfDivs; i++){
         const newDiv = document.createElement("div");
         newDiv.style.width = 600 / numberOfDivs + "px";
         newDiv.style.height = 600 / numberOfDivs + "px";
         newDiv.addEventListener("mouseover", function() {
-            if (paint) {newDiv.style.backgroundColor = `${color}`}
-        else if (erase) {newDiv.style.backgroundColor = ''}})
+            if (paint) {
+                if (rgb) {newDiv.style.backgroundColor = `rgb(${randomColorRange()}, ${randomColorRange()}, ${randomColorRange()})`}
+                else if (erase) {newDiv.style.backgroundColor = ''}
+                else {newDiv.style.backgroundColor = `${color}`}
+            }
+        })
         newDiv.addEventListener("mousedown", function() {
-            {newDiv.style.backgroundColor = `${color}`}
-        if (eraseTrigger){newDiv.style.backgroundColor = ''}})
+            if (erase){newDiv.style.backgroundColor = ''}
+            else if (rgb){newDiv.style.backgroundColor = `rgb(${randomColorRange()}, ${randomColorRange()}, ${randomColorRange()})`}
+            else {newDiv.style.backgroundColor = `${color}`}
+        })
         
         elementTarget.appendChild(newDiv);
     }   
@@ -69,6 +69,12 @@ function rgbMode() {
     for (const element of container.children){
         console.log(element)
     }
+}
+
+function randomColorRange (){
+    min = Math.ceil(0);
+    max = Math.floor(255);
+    return Math.floor(Math.random() * (max - min +1) + min);
 }
 
 addManyDivs(container, 8);
