@@ -6,6 +6,7 @@ const rgbButton = document.getElementById("rgbMode");
 const eraserButton = document.getElementById("eraser");
 const brushButton = document.getElementById("brush");
 const colorInput = document.getElementById("color");
+const turnGrid = document.getElementById("turnGrid");
 
 color = "#000000"
 
@@ -16,6 +17,7 @@ colorInput.addEventListener('input', ()=>{
 let paint = false;
 let erase = false;
 let rgb = false;
+let fading = false;
 
 window.addEventListener('mousedown', () => {paint = true});
 window.addEventListener('mouseup', () => {paint = false});
@@ -27,6 +29,7 @@ brushButton.addEventListener('click', (event)=>{
 });
 rgbButton.addEventListener('click', () => {rgb = true});
 restartButton.addEventListener('click', restartGrid);
+turnGrid.addEventListener('click', disableGrid);
 
 function addManyDivs (elementTarget, numberOfDivs) {
     //This function creates a new grid of the desire size and add some event listener.
@@ -34,10 +37,12 @@ function addManyDivs (elementTarget, numberOfDivs) {
         const newDiv = document.createElement("div");
         newDiv.style.width = 600 / numberOfDivs + "px";
         newDiv.style.height = 600 / numberOfDivs + "px";
+        newDiv.classList.toggle("grid");
         newDiv.addEventListener("mouseover", function() {
             if (paint) {
                 if (rgb) {newDiv.style.backgroundColor = `rgb(${randomColorRange()}, ${randomColorRange()}, ${randomColorRange()})`}
                 else if (erase) {newDiv.style.backgroundColor = ''}
+                //else if (fading) {};
                 else {newDiv.style.backgroundColor = `${color}`}
             }
         })
@@ -51,9 +56,10 @@ function addManyDivs (elementTarget, numberOfDivs) {
     }   
 }
 
-function restartGrid() {
+function restartGrid () {
     //This function makes every square of the grid white
     for (const element of container.children){
+        console.log(element.style.backgroundColor)
         element.style.backgroundColor = '';
     }
 }
@@ -64,11 +70,12 @@ function deleteGrid() {
     }
 }
 
-function rgbMode() {
-    //This function makes every square of the grid white
+function disableGrid () {
     for (const element of container.children){
-        console.log(element)
+        element.classList.toggle("grid");
+        element.classList.toggle("noGrid");
     }
+
 }
 
 function randomColorRange (){

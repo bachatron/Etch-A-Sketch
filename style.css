@@ -20,11 +20,25 @@
 
 }
 
+#color{
+    width: 25px;
+    height: 25px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+}
 
-#container>div{
+
+.grid{
     border: 1px solid rgb(209, 209, 209);
     margin: -1px;
 
+}
+
+.noGrid{
+    border: 0px;
+    margin: 0px;
 }
 
 h1, button, input, p {
@@ -39,7 +53,4 @@ button{
     border-radius: 10%;
     color: white;
     background-color: rgb(31, 31, 31);
-}
-
-h1{
 }
